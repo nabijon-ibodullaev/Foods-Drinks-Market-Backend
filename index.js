@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 mongoose
-  .connect("mongodb://localhost:27017")
+  .connect("mongodb://localhost:27017/food_drinks_market")
   .then(() => {
     console.log("MongoDB is connected....");
   })
