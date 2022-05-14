@@ -2,15 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 
-mongoose.connect(
-  "mongodb://localhost:27017",
-  () => {
-    console.log("mongodb is connected...");
-  },
-  (err) => {
-    console.log(`Connection error ${err}`);
-  }
-);
+mongoose
+  .connect("mongodb://localhost:27017")
+  .then(() => {
+    console.log("MongoDB is connected....");
+  })
+  .catch((error) => console.log(`Connection Error..., ${error}`));
 
 app.get("/api/course", (req, res) => {
   res.send("Hello World");
