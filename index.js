@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const categories = require("./routers/categories");
 
-// ***** mongodb connection****************//
+// ***** mongodb connection*********//
 mongoose
   .connect("mongodb://localhost:27017/food_drinks_market")
   .then(() => {
