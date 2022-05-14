@@ -9,10 +9,6 @@ mongoose
   })
   .catch((error) => console.log(`Connection Error..., ${error}`));
 
-app.get("/api/course", (req, res) => {
-  res.send("Hello World");
-});
-
 const port = process.env.PORT | 3000;
 
 app.listen(port, () => {
