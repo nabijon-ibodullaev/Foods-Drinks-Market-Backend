@@ -39,4 +39,11 @@ router.put("/:id", async (req, res) => {
   res.send(category);
 });
 
+router.delete("/:id", async (req, res) => {
+  const category = await Category.findByIdAndRemove(req.params.id);
+  if (!category) {
+    return res.status(404).send("That type of id not found...");
+  }
+  res.send(category);
+});
 module.exports = router;
