@@ -13,7 +13,7 @@ const foodSchema = new mongoose.Schema({
     max: 50,
     required: true,
   },
-  image_Url: {
+  imageUrl: {
     type: String,
     required: true,
   },
@@ -24,7 +24,7 @@ const foodSchema = new mongoose.Schema({
   rating: {
     type: Number,
   },
-  category_name: {
+  categoryName: {
     type: [String],
   },
 });
