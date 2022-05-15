@@ -9,6 +9,7 @@ const foodCategories = require("./routers/foods-category");
 const drinkCategories = require("./routers/drinks-category");
 const foods = require("./routers/food");
 const drinks = require("./routers/drink");
+const user = require("./routers/user");
 
 // ********** mongodb connection ************//
 mongoose
@@ -28,6 +29,9 @@ app.use("/api/food-categories", foodCategories);
 app.use("/api/drink-categories", drinkCategories);
 app.use("/api/foods", foods);
 app.use("/api/drinks", drinks);
+
+// ? Authentication
+app.use("/api/user", user);
 
 //************* PORT ********************* */
 const port = process.env.PORT | 3000;
