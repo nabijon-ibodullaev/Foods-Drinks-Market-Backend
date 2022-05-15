@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const categories = require("./routers/categories");
 const banner = require("./routers/banner");
+const discount = require("./routers/discount");
 const foodCategories = require("./routers/foods-category");
 const drinkCategories = require("./routers/drinks-category");
 const foods = require("./routers/food");
@@ -20,6 +21,7 @@ mongoose
 app.use(express.json());
 app.use("/api/categories", categories);
 app.use("/api/banner", banner);
+app.use("/api/discount", discount);
 app.use("/api/food-categories", foodCategories);
 app.use("/api/drink-categories", drinkCategories);
 app.use("/api/foods", foods);
