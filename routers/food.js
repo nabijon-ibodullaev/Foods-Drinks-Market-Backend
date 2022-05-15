@@ -53,4 +53,12 @@ router.put("/:id", async (req, res) => {
 
   res.status(201).send(food);
 });
+
+router.delete("/:id", async (req, res) => {
+  const food = await Food.findByIdAndRemove(req.params.id);
+  if (!food) {
+    return res.status(404).send("That type of id not found...");
+  }
+  res.send(food);
+});
 module.exports = router;
