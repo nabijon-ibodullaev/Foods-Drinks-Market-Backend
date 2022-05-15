@@ -31,4 +31,26 @@ router.get("/:id", async (req, res) => {
   }
   res.send(food);
 });
+
+router.put("/:id", async (req, res) => {
+  const food = await Food.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      description: req.body.description,
+      imageUrl: req.body.imageUrl,
+      price: req.body.price,
+      rating: req.body.rating,
+      categoryName: req.body.categoryName,
+    },
+    {
+      new: true,
+    }
+  );
+  if (!food) {
+    return res.status(404).send("That type of id not found");
+  }
+
+  res.status(201).send(food);
+});
 module.exports = router;
