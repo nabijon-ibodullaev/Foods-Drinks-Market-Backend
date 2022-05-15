@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { Banner } = require("../models/banner");
+const { Discount } = require("../models//discounts");
 
 router.get("/", async (req, res) => {
-  const banner = await Banner.find();
-  res.send(banner);
+  const discount = await Discount.find();
+  res.send(discount);
 });
 
 router.post("/", async (req, res) => {
-  let banner = new Banner({
+  let discount = new Discount({
     title: req.body.title,
     toDate: req.body.toDate,
     discount: req.body.discount,
@@ -17,21 +17,21 @@ router.post("/", async (req, res) => {
     description: req.body.description,
     imageUrl: req.body.imageUrl,
   });
-  banner = await banner.save();
+  discount = await discount.save();
 
-  res.status(201).send(banner);
+  res.status(201).send(discount);
 });
 
 router.get("/:id", async (req, res) => {
-  const banner = await Banner.findById(req.params.id);
-  if (!banner) {
+  const discount = await Discount.findById(req.params.id);
+  if (!discount) {
     return res.status(404).send("That type od id not found...");
   }
-  res.send(banner);
+  res.send(discount);
 });
 
 router.put("/:id", async (req, res) => {
-  const banner = await Banner.findByIdAndUpdate(
+  const discount = await Discount.findByIdAndUpdate(
     req.params.id,
     {
       title: req.body.title,
@@ -45,17 +45,17 @@ router.put("/:id", async (req, res) => {
     { new: true }
   );
 
-  if (!banner) {
+  if (!discount) {
     return res.status(404).send("That type of id not found...");
   }
-  res.send(banner);
+  res.send(discount);
 });
 
 router.delete("/:id", async (req, res) => {
-  const banner = await Banner.findByIdAndRemove(req.params.id);
-  if (!banner) {
+  const discount = await Discount.findByIdAndRemove(req.params.id);
+  if (!discount) {
     return res.status(404).send("That type of id not   found...");
   }
-  res.send(banner);
+  res.send(discount);
 });
 module.exports = router;
