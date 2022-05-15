@@ -23,4 +23,12 @@ router.post("/", async (req, res) => {
 
   res.status(201).send(food);
 });
+
+router.get("/:id", async (req, res) => {
+  const food = await Food.findById(req.params.id);
+  if (!food) {
+    return res.status(404).send("That type of id not found");
+  }
+  res.send(food);
+});
 module.exports = router;
