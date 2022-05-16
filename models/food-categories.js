@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const FoodCategorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "Please Include the product name"],
     max: 50,
   },
 });

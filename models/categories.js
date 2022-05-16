@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const CategorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "Please Include the product name"],
     min: 3,
     max: 50,
   },

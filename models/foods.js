@@ -5,17 +5,17 @@ const foodSchema = new mongoose.Schema({
     type: String,
     min: 2,
     max: 50,
-    required: true,
+    required: [true, "Please Include the product name"],
   },
   description: {
     type: String,
     min: 5,
     max: 50,
-    required: true,
+    required: [true, "Please Include the product description"],
   },
   imageUrl: {
     type: String,
-    required: true,
+    required: [true, "Please Include the product imageUrl"],
   },
   price: {
     type: Number,
