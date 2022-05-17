@@ -11,6 +11,7 @@ const foods = require("./routers/food");
 const drinks = require("./routers/drink");
 const user = require("./routers/user");
 const auth = require("./routers/auth");
+const cors = require("cors");
 
 // ********** mongodb connection ************//
 mongoose
@@ -22,6 +23,7 @@ mongoose
 
 // ********** MIDDLEWARE *********//
 app.use(express.json());
+app.use(cors());
 app.use("/api/categories", categories);
 app.use("/api/banner", banner);
 app.use("/api/discount", discount);
