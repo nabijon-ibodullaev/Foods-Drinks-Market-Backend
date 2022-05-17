@@ -18,6 +18,10 @@ router.post("/", async (req, res) => {
     price: req.body.price,
     rating: req.body.rating,
     categoryName: req.body.categoryName,
+    newBadge: req.body.newBadge,
+    saleBadge: req.body.saleBadge,
+    oldPrice: req.body.oldPrice,
+    newPrice: req.body.newPrice,
   });
   drink = await drink.save();
 
@@ -42,6 +46,10 @@ router.put("/:id", async (req, res) => {
       price: req.body.price,
       rating: req.body.rating,
       categoryName: req.body.categoryName,
+      newBadge: req.body.newBadge,
+      saleBadge: req.body.saleBadge,
+      oldPrice: req.body.oldPrice,
+      newPrice: req.body.newPrice,
     },
     {
       new: true,

@@ -27,6 +27,18 @@ const foodSchema = new mongoose.Schema({
   categoryName: {
     type: [String],
   },
+  newBadge: {
+    type: Boolean,
+  },
+  saleBadge: {
+    type: Boolean,
+  },
+  oldPrice: {
+    type: Number,
+  },
+  newPrice: {
+    type: Number,
+  },
 });
 
 const Food = mongoose.model("Food", foodSchema);
