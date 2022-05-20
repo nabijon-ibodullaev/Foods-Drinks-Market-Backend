@@ -5,7 +5,9 @@ const router = express.Router();
 const _ = require("lodash");
 
 router.post("/", async (req, res) => {
-  let user = await User.findOne({ email: req.body.email });
+  let user = await User.findOne({
+    email: req.body.email,
+  });
   if (!user) return res.status(400).send("Email or password invalid");
 
   const isValidPassword = await bcrypt.compare(
@@ -16,7 +18,7 @@ router.post("/", async (req, res) => {
     return res.status(400).send("Email or password invalid");
 
   const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send(true);
+  res.header("token", token).send(true);
 });
 
 module.exports = router;

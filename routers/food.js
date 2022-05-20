@@ -28,6 +28,10 @@ router.post("/", async (req, res) => {
   res.status(201).send(food);
 });
 
+router.get("/count", async (req, res) => {
+  const products = await Food.find();
+  res.send(products);
+});
 router.get("/:id", async (req, res) => {
   const food = await Food.findById(req.params.id);
   if (!food) {

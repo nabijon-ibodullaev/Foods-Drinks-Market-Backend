@@ -3,7 +3,7 @@ const router = express.Router();
 const { Category } = require("../models/categories");
 const auth = require("../middleware/auth");
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   const categories = await Category.find();
   res.send(categories);
 });
