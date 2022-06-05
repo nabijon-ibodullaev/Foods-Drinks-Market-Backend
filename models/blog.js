@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const BlogSchema = new mongoose.Schema({
   title: {
     type: String,
-    max: 60,
+    maxlength: 60,
   },
   description: {
     type: String,
-    max: 80,
+    maxlength: 1000,
   },
   imageUrl: {
     type: String,

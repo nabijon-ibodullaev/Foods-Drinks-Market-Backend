@@ -7,6 +7,7 @@ const discount = require("./routers/discount");
 const blog = require("./routers/blog");
 const foodCategories = require("./routers/foods-category");
 const drinkCategories = require("./routers/drinks-category");
+const allCategories = require("./routers/all-categories");
 const foods = require("./routers/food");
 const drinks = require("./routers/drink");
 const user = require("./routers/user");
@@ -30,6 +31,7 @@ app.use("/api/discount", discount);
 app.use("/api/blog", blog);
 app.use("/api/food-categories", foodCategories);
 app.use("/api/drink-categories", drinkCategories);
+app.use("/api/all-categories", allCategories);
 app.use("/api/foods", foods);
 app.use("/api/drinks", drinks);
 

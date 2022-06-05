@@ -6,19 +6,21 @@ const bcrypt = require("bcrypt");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 
+// Get Profile
 router.get("/me", auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
   res.send(user);
 });
 
-router.get("/", [auth, admin], async (req, res) => {
+// Get All Users
+router.get("/", async (req, res) => {
   const user = await User.find().sort("regDate");
   if (!user) {
     return res.status(404).send("Users does not exist");
   }
   res.send(user);
 });
-
+// New User
 router.post("/", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) {
@@ -29,7 +31,12 @@ router.post("/", async (req, res) => {
   );
   const salt = await bcrypt.genSalt();
   user.password = await bcrypt.hash(user.password, salt);
-  await user.save();
+  await user.save().then((result) => {
+    res.status(201).json({
+      message: "User Created!",
+      result: result,
+    });
+  });
   res.send(_.pick(user, ["_id", "name", "email", "isAdmin"]));
 });
 

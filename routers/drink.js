@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const router = express.Router();
 const { Drink } = require("../models/drinks");
 
@@ -10,7 +11,7 @@ router.get("/", async (req, res) => {
   res.send(drinks);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   let drink = new Drink({
     name: req.body.name,
     description: req.body.description,
@@ -22,6 +23,8 @@ router.post("/", async (req, res) => {
     saleBadge: req.body.saleBadge,
     oldPrice: req.body.oldPrice,
     newPrice: req.body.newPrice,
+    qtyTotal: req.body.qtyTotal,
+    total: req.body.total,
   });
   drink = await drink.save();
 
@@ -50,6 +53,8 @@ router.put("/:id", async (req, res) => {
       saleBadge: req.body.saleBadge,
       oldPrice: req.body.oldPrice,
       newPrice: req.body.newPrice,
+      qtyTotal: req.body.qtyTotal,
+      Total: req.body.Total,
     },
     {
       new: true,

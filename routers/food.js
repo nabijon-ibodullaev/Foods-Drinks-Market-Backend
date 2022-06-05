@@ -1,13 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const { Food } = require("../models/foods");
-
+const auth = require("../middleware/auth");
 router.get("/", async (req, res) => {
   const foods = await Food.find();
   if (!foods) {
     return res.status(404).send("Foods Empty");
   }
   res.send(foods);
+});
+
+// ! Sum of Foods
+
+router.get("/budget", async (req, res) => {
+  const Sum = await Food.find();
+  let sum = 0;
+  let TotalSum = await Food.aggregate([
+    {
+      $group: {
+        _id: null,
+        TotalAmount: {
+          $sum: "$price",
+        },
+      },
+    },
+  ]);
+  if (!Sum) {
+    return res.status(404).send("Foods Empty");
+  }
+  res.send(TotalSum);
 });
 
 router.post("/", async (req, res) => {
@@ -22,6 +43,8 @@ router.post("/", async (req, res) => {
     saleBadge: req.body.saleBadge,
     oldPrice: req.body.oldPrice,
     newPrice: req.body.newPrice,
+    qtyTotal: req.body.qtyTotal,
+    total: req.body.total,
   });
   food = await food.save();
 
@@ -54,6 +77,8 @@ router.put("/:id", async (req, res) => {
       saleBadge: req.body.saleBadge,
       oldPrice: req.body.oldPrice,
       newPrice: req.body.newPrice,
+      qtyTotal: req.body.qtyTotal,
+      total: req.body.total,
     },
     {
       new: true,
@@ -73,4 +98,5 @@ router.delete("/:id", async (req, res) => {
   }
   res.send(food);
 });
+
 module.exports = router;

@@ -10,7 +10,7 @@ const drinkSchema = new mongoose.Schema({
   description: {
     type: String,
     min: 5,
-    max: 50,
+    maxlength: 1000,
     required: [true, "Please Include the product description"],
   },
   imageUrl: {
@@ -38,6 +38,15 @@ const drinkSchema = new mongoose.Schema({
   },
   newPrice: {
     type: Number,
+  },
+  qtyTotal: {
+    type: Number,
+    default: 0,
+  },
+  total: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
 

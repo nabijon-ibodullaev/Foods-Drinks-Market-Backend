@@ -10,7 +10,7 @@ const foodSchema = new mongoose.Schema({
   description: {
     type: String,
     min: 5,
-    max: 50,
+    maxlength: 1000,
     required: [true, "Please Include the product description"],
   },
   imageUrl: {
@@ -23,21 +23,35 @@ const foodSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
+    default: 0,
   },
   categoryName: {
-    type: [String],
+    type: String,
   },
   newBadge: {
     type: Boolean,
+    default: false,
   },
   saleBadge: {
     type: Boolean,
+    default: false,
   },
   oldPrice: {
     type: Number,
+    default: 0,
   },
   newPrice: {
     type: Number,
+    default: false,
+  },
+  qtyTotal: {
+    type: Number,
+    default: 0,
+  },
+  total: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
 

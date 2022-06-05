@@ -19,7 +19,7 @@ const DiscountSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    max: 80,
+    maxlength: 1000,
   },
   imageUrl: {
     type: String,

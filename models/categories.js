@@ -5,7 +5,7 @@ const CategorySchema = new mongoose.Schema({
     type: String,
     required: [true, "Please Include the product name"],
     min: 3,
-    max: 50,
+    maxlength: 50,
   },
 });
 
