@@ -46,12 +46,16 @@ const foodSchema = new mongoose.Schema({
   },
   qtyTotal: {
     type: Number,
-    default: 0,
+    default: 1,
   },
   total: {
     type: Number,
     required: true,
     default: 0,
+  },
+  createdDate: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

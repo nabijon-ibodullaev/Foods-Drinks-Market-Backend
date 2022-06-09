@@ -36,6 +36,7 @@ router.put("/:id", async (req, res) => {
   if (!allCategories) {
     return res.status(404).send("That type of id not found...");
   }
+  ``;
   res.send(allCategories);
 });
 

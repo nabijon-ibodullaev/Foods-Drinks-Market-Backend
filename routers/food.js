@@ -2,6 +2,17 @@ const express = require("express");
 const router = express.Router();
 const { Food } = require("../models/foods");
 const auth = require("../middleware/auth");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // ************************GET ALL ********************************
 router.get("/", async (req, res) => {
@@ -161,9 +172,16 @@ router.get("/count", async (req, res) => {
   res.send(products);
 });
 
+// *****************GET SORT BY DATE****************************
+
+router.get("/date", async (req, res) => {
+  const products = await Food.find().sort({ createdDate: 1 });
+  res.send(products);
+});
+
 // ? **********************NEW PRODUCT**********************************
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single("productImage"), async (req, res) => {
   let food = new Food({
     name: req.body.name,
     description: req.body.description,
