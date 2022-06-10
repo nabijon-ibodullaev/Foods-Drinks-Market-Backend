@@ -178,6 +178,19 @@ router.get("/date", async (req, res) => {
   const products = await Food.find().sort({ createdDate: 1 });
   res.send(products);
 });
+// *****************GET SORT BY New****************************
+
+router.get("/new-products", async (req, res) => {
+  const products = await Food.find({ newBadge: true });
+  res.send(products);
+});
+
+// *****************GET SORT BY New****************************
+
+router.get("/sale-products", async (req, res) => {
+  const products = await Food.find({ saleBadge: true });
+  res.send(products);
+});
 
 // ? **********************NEW PRODUCT**********************************
 
