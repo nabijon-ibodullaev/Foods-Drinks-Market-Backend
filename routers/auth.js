@@ -6,27 +6,22 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
 router.post("/", async (req, res) => {
-  let fetchUser;
-  let user = await User.findOne({
-    email: req.body.email,
-  });
+  let user = await User.findOne({ email: req.body.email });
   if (!user)
-    return res.status(401).json({
-      message: "Auth Failed",
-    });
+    return res.status(400).json({ message: "Email yoki parol noto'g'ri" });
 
-  fetchUser = user;
   const isValidPassword = await bcrypt.compare(
     req.body.password,
     user.password
   );
   if (!isValidPassword)
-    return res.status(400).send("Email or password invalid");
+    return res.status(400).json({
+      message: "Email yoki parol noto'g'ri",
+    });
 
   const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send(true);
 
-  res.status(200).send({ token });
+  res.status(200).send({ token: token, expiresIn: 3600 });
 });
 
 module.exports = router;

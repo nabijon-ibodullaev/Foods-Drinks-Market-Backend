@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
   },
   isAdmin: {
     type: Boolean,
+    default: false,
   },
   regDate: {
     type: Date,
@@ -33,7 +34,8 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, isAdmin: this.isAdmin },
-    config.get("jwtPrivateKey")
+    config.get("jwtPrivateKey"),
+    { expiresIn: "1h" }
   );
   return token;
 };

@@ -2,23 +2,16 @@ const express = require("express");
 const router = express.Router();
 const { Food } = require("../models/foods");
 const auth = require("../middleware/auth");
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, new Date().toISOString() + file.originalname);
-  },
-});
+const admin = require("../middleware/admin");
 
-const upload = multer({ storage: storage });
 
 // ************************GET ALL ********************************
 router.get("/", async (req, res) => {
   const foods = await Food.find();
   if (!foods) {
-    return res.status(404).send("Foods Empty");
+    return res.status(404).json({
+      message: "Foods is empty",
+    });
   }
   res.send(foods);
 });
@@ -39,7 +32,9 @@ router.get("/budget", async (req, res) => {
     },
   ]);
   if (!Sum) {
-    return res.status(404).send("Foods Empty");
+    return res.status(404).json({
+      message: "Foods is Empty",
+    });
   }
   res.send(TotalSum);
 });
@@ -48,7 +43,7 @@ router.get("/budget", async (req, res) => {
 router.get("/fruits", async (req, res) => {
   let fruits = await Food.find({ categoryName: "Fruits" });
   if (!fruits) {
-    res.send("Fruits empty");
+    res.json({ message: "Fruits is empty" });
   }
   res.send(fruits);
 });
@@ -58,7 +53,9 @@ router.get("/fruits", async (req, res) => {
 router.get("/vegetables", async (req, res) => {
   let vegetables = await Food.find({ categoryName: "Vegetables" });
   if (!vegetables) {
-    res.send("vegetables empty");
+    res.json({
+      message: "vegetables is empty",
+    });
   }
   res.send(vegetables);
 });
@@ -81,7 +78,7 @@ router.get("/grains", async (req, res) => {
     categoryName: "Grains, legumes, nuts and seeds",
   });
   if (!grains) {
-    res.send("grains empty");
+    res.json({ message: "grains are empty " });
   }
   res.send(grains);
 });
@@ -92,7 +89,9 @@ router.get("/fish-and-seafood", async (req, res) => {
     categoryName: "Fish and seafood",
   });
   if (!fish) {
-    res.send("Fish and seafood empty");
+    res.json({
+      message: "Fish and seafood are empty",
+    });
   }
   res.send(fish);
 });
@@ -103,7 +102,9 @@ router.get("/eggs", async (req, res) => {
     categoryName: "Eggs",
   });
   if (!Eggs) {
-    res.send("Eggs empty");
+    res.json({
+      message: "Eggs are empty",
+    });
   }
   res.send(Eggs);
 });
@@ -114,7 +115,9 @@ router.get("/dairy-foods", async (req, res) => {
     categoryName: "Dairy Foods",
   });
   if (!dairy) {
-    res.send("Dairy Foods empty");
+    res.json({
+      message: "Dairy Foods are empty",
+    });
   }
   res.send(dairy);
 });
@@ -125,7 +128,9 @@ router.get("/alcoholic-drinks", async (req, res) => {
     categoryName: "Alcoholic drinks",
   });
   if (!alcoholic) {
-    res.send("Alcoholic drinks empty");
+    res.json({
+      message: "Alcoholic drinks are empty",
+    });
   }
   res.send(alcoholic);
 });
@@ -136,7 +141,9 @@ router.get("/non-alcoholic-drinks", async (req, res) => {
     categoryName: "Non-alcoholic drinks",
   });
   if (!nonAlcoholic) {
-    res.send("Non-alcoholic drinks drinks empty");
+    res.json({
+      message: "Non-alcoholic drinks are empty",
+    });
   }
   res.send(nonAlcoholic);
 });
@@ -148,7 +155,9 @@ router.get("/hot-drinks", async (req, res) => {
     categoryName: "Hot drinks",
   });
   if (!hotDrinks) {
-    res.send("Hot drinks drinks empty");
+    res.json({
+      message: "Hot drinks are empty",
+    });
   }
   res.send(hotDrinks);
 });
@@ -160,7 +169,9 @@ router.get("/juice-and-plant-drinks", async (req, res) => {
     categoryName: "Juice and plant drinks",
   });
   if (!juice) {
-    res.send("Juice and plant drinks empty");
+    res.json({
+      message: "Juice and plant drinks are empty",
+    });
   }
   res.send(juice);
 });
@@ -191,10 +202,23 @@ router.get("/sale-products", async (req, res) => {
   const products = await Food.find({ saleBadge: true });
   res.send(products);
 });
+// *****************GET SORT BY SEARCH****************************
+
+router.get("/search/:key", async (req, res) => {
+  const products = await Food.find({
+    $or: [{ name: { $regex: req.params.key } }],
+  });
+  if (!products) {
+    res.status(404).json({
+      message: 'No result'
+    })
+  }
+  res.send(products);
+});
 
 // ? **********************NEW PRODUCT**********************************
 
-router.post("/", upload.single("productImage"), async (req, res) => {
+router.post("/", [auth, admin], async (req, res) => {
   let food = new Food({
     name: req.body.name,
     description: req.body.description,
@@ -226,7 +250,7 @@ router.get("/:id", async (req, res) => {
 
 // ? ****************** UPDATE FOOD *****************************
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth, admin], async (req, res) => {
   const food = await Food.findByIdAndUpdate(
     req.params.id,
     {
@@ -256,7 +280,7 @@ router.put("/:id", async (req, res) => {
 
 // ! ******************DELETE FOOD***************************
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const food = await Food.findByIdAndRemove(req.params.id);
   if (!food) {
     return res.status(404).send("That type of id not found...");

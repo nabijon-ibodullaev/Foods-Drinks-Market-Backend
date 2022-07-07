@@ -38,7 +38,7 @@ router.put("/:id", async (req, res) => {
   );
 
   if (!banner) {
-    return res.status(404).send("That type of id not found...");
+    return res.status(404).json({ message: "That type of id not found..." });
   }
   res.send(banner);
 });
@@ -46,7 +46,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const banner = await Banner.findByIdAndRemove(req.params.id);
   if (!banner) {
-    return res.status(404).send("That type of id not   found...");
+    return res.status(404).json({ message: "That type of id not   found..." });
   }
   res.send(banner);
 });

@@ -5,18 +5,18 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
-
 // Get Profile
-router.get("/me", auth, async (req, res) => {
+router.get("/me", async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
-  res.send(user);
+  res.json(user);
 });
-
 // Get All Users
 router.get("/", async (req, res) => {
   const user = await User.find().sort("regDate");
   if (!user) {
-    return res.status(404).send("Users does not exist");
+    return res.status(404).json({
+      message: "Users does not exist",
+    });
   }
   res.send(user);
 });
@@ -24,7 +24,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) {
-    return res.status(400).send("Exist User");
+    return res.status(400).json({
+      message: "Exist User",
+    });
   }
   user = new User(
     _.pick(req.body, ["name", "email", "password", "isAdmin", "regDate"])

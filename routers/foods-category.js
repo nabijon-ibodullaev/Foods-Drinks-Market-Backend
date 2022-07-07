@@ -1,4 +1,6 @@
 const express = require("express");
+const admin = require("../middleware/admin");
+const auth = require("../middleware/auth");
 const router = express.Router();
 const { FoodCategory } = require("../models/food-categories");
 
@@ -24,7 +26,7 @@ router.get("/:id", async (req, res) => {
   res.send(foodCategory);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth, admin], async (req, res) => {
   const foodCategory = await FoodCategory.findByIdAndUpdate(
     req.params.id,
     {
@@ -39,7 +41,7 @@ router.put("/:id", async (req, res) => {
   res.send(foodCategory);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const foodCategory = await FoodCategory.findByIdAndRemove(req.params.id);
   if (!foodCategory) {
     return res.status(404).send("That type of id not found...");
